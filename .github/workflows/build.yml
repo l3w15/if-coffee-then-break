@@ -15,17 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - shell: bash
-      env:
-        DB_HOST_SAINS: ${{ secrets.DEV_HOST }}
-        DB_USER_SAINS: ${{ secrets.DEV_USER }}
-        DB_PW_SAINS: ${{ secrets.DEV_PW }}
-        DB_NAME_SAINS: ${{ secrets.DEV_DB_NAME }}
-      run: |
-        export DB_HOST_SAINS="$DB_HOST_SAINS"
-        export DB_USER_SAINS="$DB_USER_SAINS"
-        export DB_PW_SAINS="$DB_PW_SAINS"
-        export DB_NAME_SAINS="$DB_NAME_SAINS"
 
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2 # premade action
@@ -40,10 +29,19 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: run unittest
-      run:
-        python3 -m unittest  
-        
+         
+    - shell: bash
+      env:
+        DB_HOST_SAINS: ${{ secrets.DEV_HOST }}
+        DB_USER_SAINS: ${{ secrets.DEV_USER }}
+        DB_PW_SAINS: ${{ secrets.DEV_PW }}
+        DB_NAME_SAINS: ${{ secrets.DEV_DB_NAME }}
+      run: |
+        export DB_HOST_SAINS="$DB_HOST_SAINS"
+        export DB_USER_SAINS="$DB_USER_SAINS"
+        export DB_PW_SAINS="$DB_PW_SAINS"
+        export DB_NAME_SAINS="$DB_NAME_SAINS"
+        python3 -m unittest 
 
     - name: run coverage
       env:
